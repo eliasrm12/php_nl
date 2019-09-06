@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="author" content="eliasrm12">
+	<meta name="theme-color" content="#e9e8e6">
+	<meta name="description" content="Terrarios, cactus y suculentas como una terapia.">
+	<meta property="og:image" content="img/icons/icon-512.png">
+	<link rel="apple-touch-icon" href="img//icons/icon-192.png">
+	<link rel="shortcut icon" href="img/natural-love.ico">
+	<link rel="manifest" href="naturallove.webmanifest">
+	<title>Natural Love</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	<link rel="stylesheet" href="bridge.css">
+</head>
+<body>
+	<div id="app">
+		<header>
+			<img src="img/logo.svg" alt="logo" id="logo">
+			
+			<nav>
+				<ul>
+					<a href="#/"><li><i class='material-icons'>home</i>Home</li></a>
+					<a href="#/gallery"><li><i class='material-icons'>perm_media</i>Gallery</li></a>
+					<a href="#/blog"><li><i class='material-icons'>chat</i>Blog</li></a>
+				</ul>
+			</nav>
+		</header>
+		<div id='installer'>
+			<button class='button' id="install">Install</button>
+			<button id="notifications" class='button available'>Notifications</button>
+		</div>
+
+		<div id="view"></div>
+
+		<section id="contact">
+			<h2>Contact</h2>
+			<div id="boxs">
+				<div class="social">
+					<div class="logo"></div>
+				</div>
+				<div class="social">
+					<div class="logo"></div>
+				</div>
+				<div class="social">
+					<div class="logo"></div>
+				</div>
+				<div class="social">
+					<div class="logo"></div>
+				</div>
+			</div>
+		</section>
+		
+		<footer><p>COPYRIGHT © Natural Love. TODOS LOS DERECHOS RESERVADOS.</p></footer>
+	</div>
+	
+
+	 <!----> <script src="js/service_worker_installer.js"></script>
+	<script src="js/spa.js"></script>
+	<script src="js/routes.js"></script>
+	<script src="js/controllers/blog.js"></script>
+
+	<script>
+
+		const notify = document.getElementById('notifications');
+
+		if (Notification.permission == 'granted') {
+			console.log('estoy por defecto');
+			notify.classList.remove('available');
+		}else{
+			notify.classList.add('available');
+		}
+
+		
+
+		const Installer = function(root) {
+			let promptEvent;
+
+			const install = function(e) {
+				if(promptEvent) {
+				promptEvent.prompt();
+				promptEvent.userChoice
+					.then(function(choiceResult) {
+					// The user actioned the prompt (good or bad).
+					// good is handled in
+					promptEvent = null;
+					root.classList.remove('available');
+					})
+					.catch(function(installError) {
+					// Boo. update the UI.
+					promptEvent = null;
+					root.classList.remove('available');
+					});
+				}
+			};
+
+			const installed = function(e) {
+				promptEvent = null;
+				// This fires after onbeforinstallprompt OR after manual add to homescreen.
+				root.classList.remove('available');
+			};
+
+			const beforeinstallprompt = function(e) {
+				promptEvent = e;
+				promptEvent.preventDefault();
+				root.classList.add('available');
+				return false;
+			};
+
+			window.addEventListener('beforeinstallprompt', beforeinstallprompt);
+			window.addEventListener('appinstalled', installed);
+
+			root.addEventListener('click', install.bind(this));
+			root.addEventListener('touchend', install.bind(this));
+		};
+
+		window.addEventListener('load', function() {
+		const installEl = document.getElementById('install');
+		const installer = new Installer(installEl);
+
+
+		
+		});
+	
+	</script>
+		
+
+	<script>
+
+		
+		window.addEventListener('pageshow',function(){
+			console.log('se mostro la pagina');
+		});
+
+		window.addEventListener('blur',function(){
+			console.log('se cambio la pagina');
+			document.title = 'Aquí te espero :)';
+		});
+
+		window.addEventListener('focus',function(){
+			console.log('Obtuve el foco');
+			document.title = 'Hola de nuevo :)';
+			setTimeout(()=>{
+				document.title = 'Natural Love';
+			},1000);
+		});
+
+	</script>
+	
+</body>
+</html>

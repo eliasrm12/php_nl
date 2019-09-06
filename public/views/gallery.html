@@ -1,0 +1,31 @@
+<style>
+	.up{
+		width: 100px;
+		height: 100px;
+		background: red;
+	}
+</style>
+<div id="gallery">
+	<h2>Gallery</h2>
+	
+	<div id="products"></div>
+	     	
+</div>
+
+<script defer>
+
+	
+	document.querySelector('.up').addEventListener('click', (e)=>{
+		console.log('click');
+		window.scroll({
+		  top: 100,
+		  left: 100,
+		  behavior: 'smooth'
+		});
+/*		<div class="up"></div>
+		<i id='arrow' class='material-icons'>keyboard_arrow_down</i>
+
+		*/
+	});
+</script>
+
